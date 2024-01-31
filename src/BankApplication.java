@@ -22,6 +22,15 @@ class Account {
         this.balance = balance;
         this.creationDate = creationDate;
     }
+
+    public void display() {
+        System.out.println("Account Number: " + accNumber);
+        System.out.println("Name: "+name);
+        System.out.println("Account Type: "+accType);
+        System.out.println("Balance: "+balance);
+        System.out.println("Creation Date: "+creationDate);
+    }
+
 }
 
 // Class to represent account type information
@@ -43,7 +52,7 @@ class AccountType {
     }
 }
 
-class Bank {
+class Bank{
     private ArrayList<Account> accounts = new ArrayList<>();
 
     private static final String BANK_CODE = "1498273612"; // Example bank code
@@ -64,6 +73,12 @@ class Bank {
     public static boolean isValidName(String name) {
         // Check if the name is not empty and contains only letters and spaces
         return !name.isEmpty() && name.matches("[a-zA-Z ]+");
+    }
+
+    public void displayAllAccounts() {
+        for (Account account : accounts) {
+            account.display();
+        }
     }
     
     public void createAccount(){
@@ -127,7 +142,7 @@ class Bank {
                 }
             }
         }
-        
+
         double balance = initialBalance; 
         System.out.println("Minimum Balance : "+balance); 
 
@@ -163,11 +178,16 @@ class ApplicationMenu {
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
 
-            if( choice == 1 ){
+            if( choice == 1 ) {
                 bank.createAccount();
+                //break;
+            } else if( choice == 2) {
+                bank.displayAllAccounts();
+            }
+            else if( choice == 8) {
                 break;
             }
-            break;
+            
         }
     }
 }
