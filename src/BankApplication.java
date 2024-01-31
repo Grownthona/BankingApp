@@ -51,6 +51,27 @@ class Bank {
         }
         System.out.print("Enter account type: ");
         String accType = scanner.nextLine();
+
+        // Check if the user input matches any of the known account types
+        boolean isValidAccountType = false;
+        for (AccountType account : accountType) {
+            if (accType.equalsIgnoreCase(account.getAccountType())) {
+                isValidAccountType = true;
+                break;
+            }
+        }
+        // Take input until user has given correct Account Type
+        while(!isValidAccountType) {
+            System.out.println("Invalid account type. Please type again.");
+            System.out.print("Enter account type: ");
+            String newaccType = scanner.nextLine();
+            for (AccountType account : accountType) {
+                if (newaccType.equalsIgnoreCase(account.getAccountType())) {
+                    isValidAccountType = true;
+                    break;
+                }
+            }
+        } 
     }
 }
 class ApplicationMenu {
