@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 /**
  * InnerBankApplication
@@ -40,6 +42,9 @@ class Bank {
 
 
         Scanner scanner = new Scanner(System.in);
+        Map<String, Double> hm = new HashMap<String, Double>(); 
+
+
         System.out.println("------- Creating Account -------");
         System.out.print("Enter account holder's name: ");
         String name = scanner.nextLine();
@@ -47,8 +52,11 @@ class Bank {
         System.out.println("Account Type\t\tMinimum Deposit Amount");
         System.out.println("--------------------------------------------");
         for (AccountType account : accountType) {
+            hm.put(account.getAccountType(), account.getMinimumDeposit()); 
             System.out.printf("%-20s\t\t$%.2f%n", account.getAccountType(), account.getMinimumDeposit());
         }
+
+
         System.out.print("Enter account type: ");
         String accType = scanner.nextLine();
 
@@ -60,18 +68,21 @@ class Bank {
                 break;
             }
         }
+        Double initialBalance = hm.get(accType);
         // Take input until user has given correct Account Type
         while(!isValidAccountType) {
             System.out.println("Invalid account type. Please type again.");
             System.out.print("Enter account type: ");
             String newaccType = scanner.nextLine();
+            initialBalance = hm.get(newaccType);
             for (AccountType account : accountType) {
                 if (newaccType.equalsIgnoreCase(account.getAccountType())) {
                     isValidAccountType = true;
                     break;
                 }
             }
-        } 
+        }
+        System.out.println("Initial Balance : "+initialBalance); 
     }
 }
 class ApplicationMenu {
