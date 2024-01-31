@@ -4,10 +4,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+
 /**
  * InnerBankApplication
  */
-// Class to represent account information
+class Account {
+    private String name;
+    private String accNumber;
+    private String accType;
+    private double balance;
+    private String creationDate;
+
+    public Account(String name, String accNumber, String accType, double balance,  String creationDate) {
+        this.name = name;
+        this.accNumber = accNumber;
+        this.accType = accType;
+        this.balance = balance;
+        this.creationDate = creationDate;
+    }
+}
+
+// Class to represent account type information
 class AccountType {
     private String accountType;
     private double minimumDeposit;
@@ -109,10 +126,7 @@ class Bank {
                 }
             }
         }
-        System.out.println("Initial Balance : "+initialBalance); 
-
-        System.out.print("Enter minimum balance: ");
-        double minBalance = scanner.nextDouble();
+        System.out.println("Minimum Balance : "+initialBalance); 
 
         scanner.nextLine();
 
