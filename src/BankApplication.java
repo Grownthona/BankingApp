@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 /**
  * InnerBankApplication
@@ -26,6 +27,22 @@ class AccountType {
 }
 
 class Bank {
+
+    private static final String BANK_CODE = "1498273612"; // Example bank code
+    private static final int ACCOUNT_NUMBER_LENGTH = 16;
+
+    public static String generateAccountNumber() {
+        StringBuilder accountNumber = new StringBuilder(BANK_CODE);
+
+        // Generate random numbers for the account number
+        Random random = new Random();
+        for (int i = 0; i < ACCOUNT_NUMBER_LENGTH - BANK_CODE.length(); i++) {
+            accountNumber.append(random.nextInt(10)); // Append a random digit (0-9)
+        }
+        
+        // Adding another random number at the digit.
+        return accountNumber.toString();
+    }
     
     public void createAccount(){
 
@@ -68,7 +85,7 @@ class Bank {
                 break;
             }
         }
-        Double initialBalance = hm.get(accType);
+        double initialBalance = hm.get(accType);
         // Take input until user has given correct Account Type
         while(!isValidAccountType) {
             System.out.println("Invalid account type. Please type again.");
@@ -83,6 +100,17 @@ class Bank {
             }
         }
         System.out.println("Initial Balance : "+initialBalance); 
+
+        System.out.print("Enter minimum balance: ");
+        double minBalance = scanner.nextDouble();
+
+        scanner.nextLine();
+
+        String creationDate = java.time.LocalDate.now().toString();
+        System.out.println("Account Creation Date: " + creationDate);
+
+        String accountNumber = generateAccountNumber();
+        System.out.println("Generated Account Number: " + accountNumber);
     }
 }
 class ApplicationMenu {
