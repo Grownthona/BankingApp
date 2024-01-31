@@ -39,9 +39,13 @@ class Bank {
         for (int i = 0; i < ACCOUNT_NUMBER_LENGTH - BANK_CODE.length(); i++) {
             accountNumber.append(random.nextInt(10)); // Append a random digit (0-9)
         }
-        
         // Adding another random number at the digit.
         return accountNumber.toString();
+    }
+
+    public static boolean isValidName(String name) {
+        // Check if the name is not empty and contains only letters and spaces
+        return !name.isEmpty() && name.matches("[a-zA-Z ]+");
     }
     
     public void createAccount(){
@@ -65,6 +69,12 @@ class Bank {
         System.out.println("------- Creating Account -------");
         System.out.print("Enter account holder's name: ");
         String name = scanner.nextLine();
+
+        while (!isValidName(name) || name.isEmpty()) {
+            System.out.println("Invalid name. Please enter a valid name containing only letters and spaces.");
+            System.out.print("Enter account holder's name: ");
+            name = scanner.nextLine();
+        }
 
         System.out.println("Account Type\t\tMinimum Deposit Amount");
         System.out.println("--------------------------------------------");
