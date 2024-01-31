@@ -113,7 +113,7 @@ class Bank {
                 break;
             }
         }
-        double initialBalance = hm.get(accType);
+        Double initialBalance = hm.get(accType);
         // Take input until user has given correct Account Type
         while(!isValidAccountType) {
             System.out.println("Invalid account type. Please type again.");
@@ -127,9 +127,10 @@ class Bank {
                 }
             }
         }
-        System.out.println("Minimum Balance : "+initialBalance); 
+        
+        double balance = initialBalance; 
+        System.out.println("Minimum Balance : "+balance); 
 
-        scanner.nextLine();
 
         String creationDate = java.time.LocalDate.now().toString();
         System.out.println("Account Creation Date: " + creationDate);
@@ -137,7 +138,7 @@ class Bank {
         String accountNumber = generateAccountNumber();
         System.out.println("Generated Account Number: " + accountNumber);
 
-        Account account = new Account(name, accountNumber, accType, initialBalance, creationDate);
+        Account account = new Account(name, accountNumber, accType, balance, creationDate);
         accounts.add(account);
         System.out.println("Account created successfully.");
     }
