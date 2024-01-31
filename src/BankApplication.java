@@ -44,6 +44,7 @@ class AccountType {
 }
 
 class Bank {
+    private ArrayList<Account> accounts = new ArrayList<>();
 
     private static final String BANK_CODE = "1498273612"; // Example bank code
     private static final int ACCOUNT_NUMBER_LENGTH = 16;
@@ -135,6 +136,10 @@ class Bank {
 
         String accountNumber = generateAccountNumber();
         System.out.println("Generated Account Number: " + accountNumber);
+
+        Account account = new Account(name, accountNumber, accType, initialBalance, creationDate);
+        accounts.add(account);
+        System.out.println("Account created successfully.");
     }
 }
 class ApplicationMenu {
