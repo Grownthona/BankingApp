@@ -32,6 +32,14 @@ class Account {
         System.out.println("Creation Date: "+creationDate);
     }
 
+    public String getAccNumber() {
+        return accNumber;
+    }
+
+    public String Update(String name) {
+        return this.name = name;
+    }
+
 }
 
 // Class to represent account type information
@@ -75,6 +83,17 @@ class Bank{
     public static boolean isValidName(String name) {
         // Check if the name is not empty and contains only letters and spaces
         return !name.isEmpty() && name.matches("[a-zA-Z ]+");
+    }
+
+    public void updateAccount(String accNumber) {
+        for (Account account : accounts) {
+            if (account.getAccNumber().equals(accNumber)) {
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Enter new name: ");
+                String newName = scanner.nextLine();
+                System.out.println(account.Update(newName));
+            }
+        }
     }
 
 
@@ -203,6 +222,13 @@ class ApplicationMenu {
                 //break;
             } else if( choice == 2) {
                 bank.displayAllAccounts(accounts);
+            }
+            else if( choice == 3) {
+                System.out.print("Enter account number to update: ");
+                    scanner.nextLine(); // Consume newline
+                    String accNumberToUpdate = scanner.nextLine();
+                    bank.updateAccount(accNumberToUpdate);
+                    
             }
             else if( choice == 8) {
                 break;
