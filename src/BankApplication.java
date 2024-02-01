@@ -112,9 +112,20 @@ class Bank{
         System.out.println("Account not found.");
     }
 
+    public void searchAccount(String accNumber) {
+        for (Account account : accounts) {
+            if (account.getAccNumber().equals(accNumber)) {
+                account.display();
+                return;
+            }
+        }
+        System.out.println("Account not found.");
+    }
+
+
 
     public void displayAllAccounts(ArrayList<Account> oldaccounts) {
-        
+
         for (Account account : oldaccounts) {
             if (!accounts.contains(account)) {
                 accounts.add(account);
@@ -243,23 +254,25 @@ class ApplicationMenu {
                 //break;
             } else if( choice == 2) {
                 bank.displayAllAccounts(accounts);
-            }
-            else if( choice == 3) {
+            } else if( choice == 3) {
                 System.out.print("Enter account number to update: ");
-                    scanner.nextLine(); // Consume newline
-                    String accNumberToUpdate = scanner.nextLine();
-                    bank.updateAccount(accNumberToUpdate);
+                scanner.nextLine(); // Consume newline
+                String accNumberToUpdate = scanner.nextLine();
+                bank.updateAccount(accNumberToUpdate);
                     
-            }else if( choice == 4 ){
+            } else if( choice == 4 ){
                 System.out.print("Enter account number to delete: ");
-                    scanner.nextLine(); // Consume newline
-                    String accNumberToDelete = scanner.nextLine();
-                    bank.deleteAccount(accNumberToDelete);
-            }
-            else if( choice == 8) {
+                scanner.nextLine(); // Consume newline
+                String accNumberToDelete = scanner.nextLine();
+                bank.deleteAccount(accNumberToDelete);
+            } else if( choice == 7 ){
+                System.out.print("Enter account number to search: ");
+                scanner.nextLine(); // Consume newline
+                String accNumberToSearch = scanner.nextLine();
+                bank.searchAccount(accNumberToSearch);
+            } else if( choice == 8) {
                 break;
             }
-            
         }
     }
 }
