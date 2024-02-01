@@ -12,9 +12,9 @@ import java.util.Scanner;
 class Account {
     //private Bank bank;
     private String name;
-    private String accNumber;
+    protected String accNumber;
     private String accType;
-    private double balance;
+    protected double balance;
     private String creationDate;
 
     public Account(String name, String accNumber, String accType, double balance,  String creationDate) {
@@ -26,12 +26,6 @@ class Account {
     }
 
     public void display() {
-        /*System.out.println("Account Number: " + accNumber);
-        System.out.println("Name: " +name);
-        System.out.println("Account Type: "+accType);
-        System.out.println("Balance: "+balance);
-        System.out.println("Creation Date: "+creationDate);
-        */
         System.out.println("Account Number: " + accNumber + ", Name: " + name + ", Type: " + accType + ", Balance: " + balance + ", Creation Date: " + creationDate);
     }
 
@@ -48,6 +42,57 @@ class Account {
         System.out.println("Deposited " + amount + " into account " + accNumber + ". Current balance: " + balance);
     }
 
+    public void withdraw(double amount,double minBalance) {
+        if (balance - amount >= minBalance) {
+            balance -= amount;
+            System.out.println("Withdrew " + amount + " from account " + accNumber + ". Current balance: " + balance);
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
+}
+
+class MinimumBalanceAccount extends Account {
+    
+    private static ArrayList<MinimumBalanceInfo> minimumBalanceInfoList = new ArrayList<>();
+    private double minBalance;
+
+    public MinimumBalanceAccount(String name, String accNumber, String accType, double balance, String creationDate, double minBalance) {
+        super(name, accNumber, accType, balance, creationDate);
+        this.minBalance = minBalance;
+    }
+
+    public static void addMinimumBalanceInfo(String accType, double minAmount) {
+        MinimumBalanceInfo info = new MinimumBalanceInfo(accType, minAmount);
+        minimumBalanceInfoList.add(info);
+    }
+
+    public static double getMinimumBalance(String accType) {
+        for (MinimumBalanceInfo info : minimumBalanceInfoList) {
+            if (info.getAccType().equals(accType)) {
+                return info.getMinAmount();
+            }
+        }
+        return -1; // Return -1 if account type not found
+    }
+}
+
+class MinimumBalanceInfo {
+    private String accType;
+    private double minAmount;
+
+    public MinimumBalanceInfo(String accType, double minAmount) {
+        this.accType = accType;
+        this.minAmount = minAmount;
+    }
+
+    public String getAccType() {
+        return accType;
+    }
+
+    public double getMinAmount() {
+        return minAmount;
+    }
 }
 
 // Class to represent account type information
@@ -138,6 +183,18 @@ class Bank{
                     System.out.println("Your amount is not correct.");
                     return;
                 }
+            }
+        }
+        System.out.println("Account not found.");
+    }
+
+    public void withdrawAmount(String accNumberToWithdraw,double withdrawAmount) {
+        for (Account account : accounts) {
+            if (account.getAccNumber().equals(accNumberToWithdraw)) {
+                double minBalanceSavings = MinimumBalanceAccount.getMinimumBalance("Savings");
+                //System.out.println(minBalanceSavings);
+                account.withdraw(withdrawAmount, minBalanceSavings);
+                return;
             }
         }
         System.out.println("Account not found.");
@@ -270,21 +327,27 @@ class ApplicationMenu {
 
             if( choice == 1 ) {
                 bank.createAccount();
-                //break;
+        
             } else if( choice == 2) {
+
                 bank.displayAllAccounts(accounts);
+
             } else if( choice == 3) {
+
                 System.out.print("Enter account number to update: ");
                 scanner.nextLine(); // Consume newline
                 String accNumberToUpdate = scanner.nextLine();
                 bank.updateAccount(accNumberToUpdate);
                     
             } else if( choice == 4 ){
+
                 System.out.print("Enter account number to delete: ");
                 scanner.nextLine(); // Consume newline
                 String accNumberToDelete = scanner.nextLine();
                 bank.deleteAccount(accNumberToDelete);
-            }else if( choice == 5 ){
+
+            } else if( choice == 5 ){
+
                 System.out.print("Enter account number to deposit into: ");
                 scanner.nextLine(); // Consume newline
                 String accNumberToDeposit = scanner.nextLine();
@@ -292,19 +355,46 @@ class ApplicationMenu {
                 double depositAmount = scanner.nextDouble();
                 bank.depositAmount(accNumberToDeposit, depositAmount);
                 
+            } else if( choice == 6){
+
+                System.out.print("Enter account number to withdraw from: ");
+                scanner.nextLine(); // Consume newline
+                String accNumberToWithdraw = scanner.nextLine();
+                System.out.print("Enter amount to withdraw: ");
+                double withdrawAmount = scanner.nextDouble();
+                bank.withdrawAmount(accNumberToWithdraw, withdrawAmount);
+
             } else if( choice == 7 ){
+
                 System.out.print("Enter account number to search: ");
                 scanner.nextLine(); // Consume newline
                 String accNumberToSearch = scanner.nextLine();
                 bank.searchAccount(accNumberToSearch);
+
             } else if( choice == 8) {
+
+                System.out.println("Exiting...");
+                System.exit(0);
                 break;
+                
+            } else {
+                System.out.println("Invalid choice. Please try again.");
             }
         }
     }
 }
 public class BankApplication {
     public static void main(String[] args) {
+
+        MinimumBalanceAccount.addMinimumBalanceInfo("Savings", 100.0);
+        MinimumBalanceAccount.addMinimumBalanceInfo("Checking", 50.0);
+        MinimumBalanceAccount.addMinimumBalanceInfo("Fixed Deposit", 100.0);
+        MinimumBalanceAccount.addMinimumBalanceInfo("Current", 50.0);
+        MinimumBalanceAccount.addMinimumBalanceInfo("Salary", 100.0);
+        MinimumBalanceAccount.addMinimumBalanceInfo("Retirement", 50.0);
+        MinimumBalanceAccount.addMinimumBalanceInfo("Bussiness", 100.0);
+        MinimumBalanceAccount.addMinimumBalanceInfo("Foreign Currency", 50.0);
+
        
         ApplicationMenu application = new ApplicationMenu();
         Account account = new Account("Sarah", "1498273612784360", "Fixed Deposit", 10000, "2023-12-01");
