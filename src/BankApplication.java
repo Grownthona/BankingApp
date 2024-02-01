@@ -43,6 +43,11 @@ class Account {
         return this.name = name;
     }
 
+    public void deposit(double amount) {
+        balance += amount;
+        System.out.println("Deposited " + amount + " into account " + accNumber + ". Current balance: " + balance);
+    }
+
 }
 
 // Class to represent account type information
@@ -98,6 +103,7 @@ class Bank{
         }
     }
 
+
     public void deleteAccount(String accNumber) {
         Iterator<Account> iterator = accounts.iterator();
 
@@ -122,7 +128,20 @@ class Bank{
         System.out.println("Account not found.");
     }
 
-
+    public void depositAmount(String accNumberToDeposit,double depositAmount) {
+        for (Account account : accounts) {
+            if (account.getAccNumber().equals(accNumberToDeposit)) {
+                if(depositAmount > 0.0){
+                    account.deposit(depositAmount);
+                    return;
+                }else{
+                    System.out.println("Your amount is not correct.");
+                    return;
+                }
+            }
+        }
+        System.out.println("Account not found.");
+    }
 
     public void displayAllAccounts(ArrayList<Account> oldaccounts) {
 
@@ -265,6 +284,14 @@ class ApplicationMenu {
                 scanner.nextLine(); // Consume newline
                 String accNumberToDelete = scanner.nextLine();
                 bank.deleteAccount(accNumberToDelete);
+            }else if( choice == 5 ){
+                System.out.print("Enter account number to deposit into: ");
+                scanner.nextLine(); // Consume newline
+                String accNumberToDeposit = scanner.nextLine();
+                System.out.print("Enter amount to deposit: ");
+                double depositAmount = scanner.nextDouble();
+                bank.depositAmount(accNumberToDeposit, depositAmount);
+                
             } else if( choice == 7 ){
                 System.out.print("Enter account number to search: ");
                 scanner.nextLine(); // Consume newline
