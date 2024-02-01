@@ -33,8 +33,14 @@ class Account {
         return accNumber;
     }
 
-    public String Update(String name) {
+    public String UpdateName(String name) {
         return this.name = name;
+    }
+    public String updateAccountType(String accType) {
+        return this.accType = accType;
+    }
+    public String updateAccountCreation(String creationDate) {
+        return this.creationDate = creationDate;
     }
 
     public void deposit(double amount) {
@@ -115,6 +121,7 @@ class AccountType {
 }
 
 class Bank{
+    
     private ArrayList<Account> accounts = new ArrayList<>();
 
     private static final String BANK_CODE = "1498273612"; // Example bank code
@@ -138,18 +145,28 @@ class Bank{
     }
 
     public void updateAccount(String accNumber) {
+
         for (Account account : accounts) {
+
             if (account.getAccNumber().equals(accNumber)) {
+
                 Scanner scanner = new Scanner(System.in);
                 System.out.print("Enter new name: ");
                 String newName = scanner.nextLine();
-                System.out.println(account.Update(newName));
+                System.out.println(account.UpdateName(newName));
+                System.out.print("Enter new Account Type: ");
+                String newType = scanner.nextLine();
+                System.out.println(account.updateAccountType(newType));
+                System.out.print("Enter new Account Creation Date: ");
+                String newDate = scanner.nextLine();
+                System.out.println(account.updateAccountCreation(newDate));
             }
         }
     }
 
 
     public void deleteAccount(String accNumber) {
+
         Iterator<Account> iterator = accounts.iterator();
 
         while (iterator.hasNext()) {
@@ -164,6 +181,7 @@ class Bank{
     }
 
     public void searchAccount(String accNumber) {
+
         for (Account account : accounts) {
             if (account.getAccNumber().equals(accNumber)) {
                 account.display();
@@ -174,6 +192,7 @@ class Bank{
     }
 
     public void depositAmount(String accNumberToDeposit,double depositAmount) {
+
         for (Account account : accounts) {
             if (account.getAccNumber().equals(accNumberToDeposit)) {
                 if(depositAmount > 0.0){
@@ -189,6 +208,7 @@ class Bank{
     }
 
     public void withdrawAmount(String accNumberToWithdraw,double withdrawAmount) {
+
         for (Account account : accounts) {
             if (account.getAccNumber().equals(accNumberToWithdraw)) {
                 double minBalanceSavings = MinimumBalanceAccount.getMinimumBalance("Savings");
@@ -201,20 +221,16 @@ class Bank{
     }
 
     public void displayAllAccounts(ArrayList<Account> oldaccounts) {
-
         for (Account account : oldaccounts) {
             if (!accounts.contains(account)) {
                 accounts.add(account);
             }
         }
-        
         for (Account account : accounts) {
             account.display();
         }
     }
 
-    
-    
     public void createAccount(){
 
         List<AccountType> accountType = new ArrayList<>();
@@ -227,11 +243,8 @@ class Bank{
         accountType.add(new AccountType("Bussiness", 2000.0));
         accountType.add(new AccountType("Foreign Currency", 3000.0));
 
-
-
         Scanner scanner = new Scanner(System.in);
         Map<String, Double> hm = new HashMap<String, Double>(); 
-
 
         System.out.println("------- Creating Account -------");
         System.out.print("Enter account holder's name: ");
@@ -250,7 +263,6 @@ class Bank{
             System.out.printf("%-20s\t\t$%.2f%n", account.getAccountType(), account.getMinimumDeposit());
         }
 
-
         System.out.print("Enter account type: ");
         String accType = scanner.nextLine();
 
@@ -262,6 +274,7 @@ class Bank{
                 break;
             }
         }
+
         Double initialBalance = hm.get(accType);
         // Take input until user has given correct Account Type
         while(!isValidAccountType) {
@@ -280,7 +293,6 @@ class Bank{
         double balance = initialBalance; 
         System.out.println("Minimum Balance : "+balance); 
 
-
         String creationDate = java.time.LocalDate.now().toString();
         System.out.println("Account Creation Date: " + creationDate);
 
@@ -291,10 +303,9 @@ class Bank{
         accounts.add(account);
         System.out.println("Account created successfully.");
     }
-
-    
 }
 class ApplicationMenu {
+
     private ArrayList<Account> accounts;
     Bank bank = new Bank();
 
@@ -306,12 +317,12 @@ class ApplicationMenu {
         accounts.add(account);
     }
 
-
     protected void Menu(){
         
         Scanner scanner = new Scanner(System.in);
         
         while (true) {
+
             System.out.println(" ===== Bank Application ===== ");
             System.out.println("1. Create a new account");
             System.out.println("2. Display all accounts");
@@ -376,13 +387,14 @@ class ApplicationMenu {
                 System.out.println("Exiting...");
                 System.exit(0);
                 break;
-                
+
             } else {
                 System.out.println("Invalid choice. Please try again.");
             }
         }
     }
 }
+
 public class BankApplication {
     public static void main(String[] args) {
 
@@ -395,11 +407,11 @@ public class BankApplication {
         MinimumBalanceAccount.addMinimumBalanceInfo("Bussiness", 100.0);
         MinimumBalanceAccount.addMinimumBalanceInfo("Foreign Currency", 50.0);
 
-       
         ApplicationMenu application = new ApplicationMenu();
         Account account = new Account("Sarah", "1498273612784360", "Fixed Deposit", 10000, "2023-12-01");
+        Account account02 = new Account("Jamila", "1498273612734482", "Bussiness", 20000, "2023-11-13");
         application.addAccount(account);
+        application.addAccount(account02);
         application.Menu();
-
     }
 }
