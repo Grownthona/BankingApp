@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -25,11 +26,13 @@ class Account {
     }
 
     public void display() {
-        System.out.println("Account Number: " + accNumber);
+        /*System.out.println("Account Number: " + accNumber);
         System.out.println("Name: " +name);
         System.out.println("Account Type: "+accType);
         System.out.println("Balance: "+balance);
         System.out.println("Creation Date: "+creationDate);
+        */
+        System.out.println("Account Number: " + accNumber + ", Name: " + name + ", Type: " + accType + ", Balance: " + balance + ", Creation Date: " + creationDate);
     }
 
     public String getAccNumber() {
@@ -67,7 +70,6 @@ class Bank{
     private static final String BANK_CODE = "1498273612"; // Example bank code
     private static final int ACCOUNT_NUMBER_LENGTH = 16;
 
-
     public static String generateAccountNumber() {
         StringBuilder accountNumber = new StringBuilder(BANK_CODE);
 
@@ -96,9 +98,28 @@ class Bank{
         }
     }
 
+    public void deleteAccount(String accNumber) {
+        Iterator<Account> iterator = accounts.iterator();
+
+        while (iterator.hasNext()) {
+            Account account = iterator.next();
+            if (account.getAccNumber().equals(accNumber)) {
+                iterator.remove(); // Safely remove the element using iterator
+                System.out.println("Account deleted successfully.");
+                return;
+            }
+        }
+        System.out.println("Account not found.");
+    }
+
 
     public void displayAllAccounts(ArrayList<Account> oldaccounts) {
-        accounts.addAll(oldaccounts);
+        
+        for (Account account : oldaccounts) {
+            if (!accounts.contains(account)) {
+                accounts.add(account);
+            }
+        }
         
         for (Account account : accounts) {
             account.display();
@@ -229,6 +250,11 @@ class ApplicationMenu {
                     String accNumberToUpdate = scanner.nextLine();
                     bank.updateAccount(accNumberToUpdate);
                     
+            }else if( choice == 4 ){
+                System.out.print("Enter account number to delete: ");
+                    scanner.nextLine(); // Consume newline
+                    String accNumberToDelete = scanner.nextLine();
+                    bank.deleteAccount(accNumberToDelete);
             }
             else if( choice == 8) {
                 break;
