@@ -121,7 +121,7 @@ class AccountType {
 }
 
 class Bank{
-    
+
     private ArrayList<Account> accounts = new ArrayList<>();
 
     private static final String BANK_CODE = "1498273612"; // Example bank code
@@ -408,10 +408,6 @@ public class BankApplication {
         MinimumBalanceAccount.addMinimumBalanceInfo("Foreign Currency", 50.0);
 
         ApplicationMenu application = new ApplicationMenu();
-        Account account = new Account("Sarah", "1498273612784360", "Fixed Deposit", 10000, "2023-12-01");
-        Account account02 = new Account("Jamila", "1498273612734482", "Bussiness", 20000, "2023-11-13");
-        application.addAccount(account);
-        application.addAccount(account02);
         application.Menu();
     }
 }
