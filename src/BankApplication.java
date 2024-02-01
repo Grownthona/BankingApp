@@ -9,6 +9,7 @@ import java.util.Scanner;
  * InnerBankApplication
  */
 class Account {
+    //private Bank bank;
     private String name;
     private String accNumber;
     private String accType;
@@ -25,7 +26,7 @@ class Account {
 
     public void display() {
         System.out.println("Account Number: " + accNumber);
-        System.out.println("Name: "+name);
+        System.out.println("Name: " +name);
         System.out.println("Account Type: "+accType);
         System.out.println("Balance: "+balance);
         System.out.println("Creation Date: "+creationDate);
@@ -58,6 +59,7 @@ class Bank{
     private static final String BANK_CODE = "1498273612"; // Example bank code
     private static final int ACCOUNT_NUMBER_LENGTH = 16;
 
+
     public static String generateAccountNumber() {
         StringBuilder accountNumber = new StringBuilder(BANK_CODE);
 
@@ -75,11 +77,16 @@ class Bank{
         return !name.isEmpty() && name.matches("[a-zA-Z ]+");
     }
 
-    public void displayAllAccounts() {
+
+    public void displayAllAccounts(ArrayList<Account> oldaccounts) {
+        accounts.addAll(oldaccounts);
+        
         for (Account account : accounts) {
             account.display();
         }
     }
+
+    
     
     public void createAccount(){
 
@@ -157,13 +164,26 @@ class Bank{
         accounts.add(account);
         System.out.println("Account created successfully.");
     }
+
+    
 }
 class ApplicationMenu {
+    private ArrayList<Account> accounts;
+    Bank bank = new Bank();
+
+    public ApplicationMenu() {
+        accounts = new ArrayList<>();
+    }
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+    }
+
 
     protected void Menu(){
         
         Scanner scanner = new Scanner(System.in);
-        Bank bank = new Bank();
+        
         while (true) {
             System.out.println(" ===== Bank Application ===== ");
             System.out.println("1. Create a new account");
@@ -182,7 +202,7 @@ class ApplicationMenu {
                 bank.createAccount();
                 //break;
             } else if( choice == 2) {
-                bank.displayAllAccounts();
+                bank.displayAllAccounts(accounts);
             }
             else if( choice == 8) {
                 break;
@@ -193,7 +213,11 @@ class ApplicationMenu {
 }
 public class BankApplication {
     public static void main(String[] args) {
+       
         ApplicationMenu application = new ApplicationMenu();
+        Account account = new Account("Sarah", "1498273612784360", "Fixed Deposit", 10000, "2023-12-01");
+        application.addAccount(account);
         application.Menu();
+
     }
 }
